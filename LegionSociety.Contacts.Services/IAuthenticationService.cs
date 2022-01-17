@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LegionSociety.Contacts.Data.Models;
 
 namespace LegionSociety.Contacts.Services
 {
     public interface IAuthenticationService
     {
-        bool Validate(string emailAddress, string password);
+        Contact Validate(string emailAddress, string password);
     }
 }

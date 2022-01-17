@@ -1,6 +1,7 @@
 ﻿using LegionSociety.Contacts.Data.Models;
 using LegionSociety.Contacts.Services;
 using LegionSociety.Contacts.Services.Implementation;
+using LegionSociety.Contacts.Web.Models.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,15 @@ namespace LegionSociety.Contacts.Web.Controllers
     {
         private readonly IRepository<Contact> contactsRepo;
         private readonly IContactMapper contactMapper;
+        private readonly IUserContext UserContext;
 
         public ContactsController(IRepository<Contact> contactsRepo,
-            IContactMapper contactMapper)
+            IContactMapper contactMapper,
+            IUserContext userContext)
         {
             this.contactsRepo = contactsRepo;
             this.contactMapper = contactMapper;
+            this.UserContext = userContext;
         }
         // GET: ContactsController
         [Authorize]
@@ -25,7 +29,8 @@ namespace LegionSociety.Contacts.Web.Controllers
         {
             var models = contactsRepo.GetAll().ToList();
             var contacts = models.Select(contactMapper.Map).ToList();
-            return View(contacts);
+            var model = new IndexModel { Contacts = contacts, EmailAddress = UserContext.GetEmailAddress() };
+            return View(model);
         }
 
         // GET: ContactsController/Details/5

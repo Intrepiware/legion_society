@@ -1,4 +1,5 @@
 using LegionSociety.Contacts.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,10 +29,12 @@ namespace LegionSociety.Contacts.Web
             services.AddAuthentication("CookieAuth")
                     .AddCookie("CookieAuth", config =>
                     {
+                        config.Cookie.Name = "LegionSociety.Contacts";
                         config.LoginPath = "/Accounts/Login";
                     });
             services.AddDbContext<ContactContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ContactConnection")));
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
             services = IOC.Register(services, Configuration);
         }
 
@@ -52,6 +55,8 @@ namespace LegionSociety.Contacts.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
