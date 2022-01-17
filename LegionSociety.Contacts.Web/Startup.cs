@@ -27,6 +27,7 @@ namespace LegionSociety.Contacts.Web
         {
             services.AddDbContext<ContactContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ContactConnection")));
             services.AddControllersWithViews();
+            services = IOC.Register(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

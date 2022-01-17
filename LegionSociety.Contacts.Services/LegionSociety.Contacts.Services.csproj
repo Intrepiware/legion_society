@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LegionSociety.Contacts.Data\LegionSociety.Contacts.Data.csproj" />
+    <ProjectReference Include="..\LegionSociety.Contacts.Models\LegionSociety.Contacts.Models.csproj" />
   </ItemGroup>
 
 </Project>
