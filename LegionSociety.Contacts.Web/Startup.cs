@@ -25,9 +25,14 @@ namespace LegionSociety.Contacts.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("CookieAuth")
+                    .AddCookie("CookieAuth", config =>
+                    {
+                        config.LoginPath = "/Accounts/Login";
+                    });
             services.AddDbContext<ContactContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ContactConnection")));
             services.AddControllersWithViews();
-            services = IOC.Register(services);
+            services = IOC.Register(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

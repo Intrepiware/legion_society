@@ -1,6 +1,7 @@
 ﻿using LegionSociety.Contacts.Data.Models;
 using LegionSociety.Contacts.Services;
 using LegionSociety.Contacts.Services.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace LegionSociety.Contacts.Web.Controllers
             this.contactMapper = contactMapper;
         }
         // GET: ContactsController
+        [Authorize]
         public ActionResult Index()
         {
             var models = contactsRepo.GetAll().ToList();
@@ -27,12 +29,14 @@ namespace LegionSociety.Contacts.Web.Controllers
         }
 
         // GET: ContactsController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: ContactsController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -41,6 +45,7 @@ namespace LegionSociety.Contacts.Web.Controllers
         // POST: ContactsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(IFormCollection collection)
         {
             try
@@ -62,6 +67,7 @@ namespace LegionSociety.Contacts.Web.Controllers
         // POST: ContactsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
@@ -75,6 +81,7 @@ namespace LegionSociety.Contacts.Web.Controllers
         }
 
         // GET: ContactsController/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             return View();
@@ -83,6 +90,7 @@ namespace LegionSociety.Contacts.Web.Controllers
         // POST: ContactsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
