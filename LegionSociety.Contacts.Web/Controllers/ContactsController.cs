@@ -6,42 +6,45 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LegionSociety.Contacts.Web.Controllers
 {
+    [Authorize]
     public class ContactsController : Controller
     {
-        private readonly IRepository<Contact> contactsRepo;
-        private readonly IContactMapper contactMapper;
+        private readonly IRepository<Contact> ContactsRepo;
+        private readonly IContactMapper ContactMapper;
+        private readonly IContactService ContactService;
         private readonly IUserContext UserContext;
 
         public ContactsController(IRepository<Contact> contactsRepo,
             IContactMapper contactMapper,
+            IContactService contactService,
             IUserContext userContext)
         {
-            this.contactsRepo = contactsRepo;
-            this.contactMapper = contactMapper;
+            this.ContactsRepo = contactsRepo;
+            this.ContactMapper = contactMapper;
+            this.ContactService = contactService;
             this.UserContext = userContext;
         }
         // GET: ContactsController
-        [Authorize]
         public ActionResult Index()
         {
-            var models = contactsRepo.GetAll().ToList();
-            var contacts = models.Select(contactMapper.Map).ToList();
+            var models = ContactsRepo.GetAll().ToList();
+            var contacts = models.Select(ContactMapper.Map).ToList();
             var model = new IndexModel { Contacts = contacts, EmailAddress = UserContext.GetEmailAddress() };
             return View(model);
         }
 
-        // GET: ContactsController/Details/5
-        [Authorize]
-        public ActionResult Details(int id)
+        [Route("Contacts/{id}")]
+        // GET: ContactsController/5
+        public ActionResult Index(long id)
         {
             return View();
         }
 
         // GET: ContactsController/Create
-        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -50,7 +53,6 @@ namespace LegionSociety.Contacts.Web.Controllers
         // POST: ContactsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public ActionResult Create(IFormCollection collection)
         {
             try
@@ -63,30 +65,50 @@ namespace LegionSociety.Contacts.Web.Controllers
             }
         }
 
-        // GET: ContactsController/Edit/5
-        public ActionResult Edit(int id)
+        [Route("Contacts/{id}/Edit")]
+        // GET: ContactsController/5/Edit
+        public async Task<ActionResult> Edit(long id)
         {
-            return View();
+            if(UserContext.CanEditContact(id))
+            {
+                var contact = await ContactsRepo.GetById(id);
+                if(contact != null)
+                {
+                    var model = new EditModel
+                    {
+                        DateOfBirth = contact.DateOfBirth,
+                        Email = contact.EmailAddress,
+                        FirstName = contact.FirstName,
+                        LastName = contact.LastName
+                    };
+                    return View(model);
+                }
+            }
+
+            return NotFound();
         }
 
         // POST: ContactsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EditModel model)
         {
-            try
+            if(ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var contact = new Contacts.Models.Contact
+                {
+                    EmailAddress = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Id = id
+                };
+                ContactService.Update(contact);
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(model);
         }
 
         // GET: ContactsController/Delete/5
-        [Authorize]
         public ActionResult Delete(int id)
         {
             return View();
@@ -95,7 +117,6 @@ namespace LegionSociety.Contacts.Web.Controllers
         // POST: ContactsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

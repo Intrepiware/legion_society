@@ -16,6 +16,12 @@ namespace LegionSociety.Contacts.Services.Implementation
             this.HttpContextAccessor = httpContextAccessor;
             this.User = httpContextAccessor.HttpContext.User;
         }
+
+        public bool CanEditContact(long id)
+        {
+            return CanManageContacts() || GetId() == id;
+        }
+
         public bool CanManageContacts()
         {
             return User?.HasClaim($"{Models.LegionSocietyClaimTypes.Contacts}{Models.LegionSocietyClaimTypes.Manage}", string.Empty) ?? false;

@@ -18,6 +18,7 @@ namespace LegionSociety.Contacts.Web
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IClaimsService, ClaimsService>();
             services.AddScoped<IUserContext, UserContext>();
+            services.AddScoped<IContactService, ContactService>();
             if(configuration["envName"] == "Development")
             {
                 services.AddScoped<IPasswordHashService, DoNothingPasswordHashService>();

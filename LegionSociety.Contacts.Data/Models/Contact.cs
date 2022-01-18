@@ -19,5 +19,8 @@ namespace LegionSociety.Contacts.Data.Models
         public string Password { get; set; }
         [Required]
         public byte RoleId { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime? InactiveDate { get; set; }
     }
 }
