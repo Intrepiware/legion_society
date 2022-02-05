@@ -1,11 +1,9 @@
 ﻿using FakeItEasy;
 using LegionSociety.Contacts.Services.Implementation;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LegionSociety.Contacts.Services.Tests
@@ -33,6 +31,7 @@ namespace LegionSociety.Contacts.Services.Tests
 
                 _userContext = A.Fake<IUserContext>();
                 _contactRepository = A.Fake<IRepository<Data.Models.Contact>>();
+                _updatedContact = null;
 
                 A.CallTo(() => _userContext.CanEditContact(1)).Returns(true);
                 A.CallTo(() => _userContext.CanEditContact(1000)).Returns(false);

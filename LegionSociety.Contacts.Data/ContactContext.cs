@@ -13,6 +13,15 @@ namespace LegionSociety.Contacts.Data
 
         }
 
-        public DbSet<Contact> Contact { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Contact>()
+                .HasMany(x => x.Invitations)
+                .WithOne(x => x.InvitingContact);
+
+
+        }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
     }
 }

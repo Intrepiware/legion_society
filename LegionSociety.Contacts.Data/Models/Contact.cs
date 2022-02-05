@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace LegionSociety.Contacts.Data.Models
 {
+    [Table("Contact")]
     public class Contact
     {
         [Key]
@@ -22,5 +24,6 @@ namespace LegionSociety.Contacts.Data.Models
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? InactiveDate { get; set; }
+        public ICollection<Invitation> Invitations { get; set;}
     }
 }
