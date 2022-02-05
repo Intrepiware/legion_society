@@ -1,12 +1,4 @@
-﻿using LegionSociety.Contacts.Data.Models;
-using LegionSociety.Contacts.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Linq;
 using Contact = LegionSociety.Contacts.Data.Models.Contact;
 
 
