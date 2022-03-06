@@ -1,8 +1,5 @@
 ﻿@using LegionSociety.Contacts.Web.Models.Contacts
 @model IndexModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     <p>Hello @(Model.EmailAddress)!</p>
     <table class="table">
@@ -16,6 +13,7 @@
     @foreach(var contact in Model.Contacts)
     {
         <tr>
+            <td>@Html.ActionLink("View", "Index", new { Id = contact.Id })</td>
             <td>@contact.FirstName</td>
             <td>@contact.LastName</td>
             <td>@contact.EmailAddress</td>
