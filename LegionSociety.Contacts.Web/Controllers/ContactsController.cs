@@ -40,9 +40,9 @@ namespace LegionSociety.Contacts.Web.Controllers
 
         [Route("Contacts/{id}")]
         // GET: ContactsController/5
-        public async Task<ActionResult> Index(long id)
+        public async Task<ActionResult> Details(long id)
         {
-            var contact = ContactService.Get(id);
+            var contact = await ContactService.Get(id);
 
             if (contact == null)
                 return NotFound();

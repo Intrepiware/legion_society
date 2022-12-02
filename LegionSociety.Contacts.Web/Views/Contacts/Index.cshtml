@@ -13,7 +13,7 @@
     @foreach(var contact in Model.Contacts)
     {
         <tr>
-            <td>@Html.ActionLink("View", "Index", new { Id = contact.Id })</td>
+            <td>@Html.ActionLink("View", "Details", new { Id = contact.Id })</td>
             <td>@contact.FirstName</td>
             <td>@contact.LastName</td>
             <td>@contact.EmailAddress</td>
