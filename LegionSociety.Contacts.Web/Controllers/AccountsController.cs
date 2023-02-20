@@ -39,7 +39,7 @@ namespace LegionSociety.Contacts.Web.Controllers
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(principal);
-                return LocalRedirect(returnUrl);
+                return LocalRedirect(returnUrl ?? "/Contacts");
             }
 
             return View();

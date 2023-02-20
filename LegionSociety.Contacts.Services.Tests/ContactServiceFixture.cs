@@ -43,14 +43,14 @@ namespace LegionSociety.Contacts.Services.Tests
                     .WithAnyArguments()
                     .Invokes((Data.Models.Contact x) => _updatedContact = x);
 
-                _contactService = new ContactService(_userContext, _contactRepository);
+                _contactService = new ContactService(_userContext, null, _contactRepository);
             }
 
             [Test]
             public async Task Should_Update()
             {
                 // Arrange
-                var contact = new Models.ContactDetailModel { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress="user1@email.com" };
+                var contact = new Models.ContactEditModel { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress="user1@email.com" };
 
                 // Act
                 var result = await _contactService.Update(contact);
@@ -67,7 +67,7 @@ namespace LegionSociety.Contacts.Services.Tests
             public void Should_Throw_If_Unprivileged()
             {
                 // Arrange
-                var contact = new Models.ContactDetailModel { Id = 1000, FirstName = "Brad", LastName = "Update Test", EmailAddress = "user1000@email.com" };
+                var contact = new Models.ContactEditModel { Id = 1000, FirstName = "Brad", LastName = "Update Test", EmailAddress = "user1000@email.com" };
 
                 // Act / Assert
                 Assert.ThrowsAsync<SecurityException>(async () => await _contactService.Update(contact));
@@ -79,7 +79,7 @@ namespace LegionSociety.Contacts.Services.Tests
             {
 
                 // Arrange
-                var contact = new Models.ContactDetailModel { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress = "user1000@email.com" };
+                var contact = new Models.ContactEditModel { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress = "user1000@email.com" };
 
                 // Act
                 var result = await _contactService.Update(contact);
