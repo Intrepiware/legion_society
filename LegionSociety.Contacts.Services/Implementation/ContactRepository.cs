@@ -1,8 +1,5 @@
 ﻿using LegionSociety.Contacts.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LegionSociety.Contacts.Services.Implementation
 {

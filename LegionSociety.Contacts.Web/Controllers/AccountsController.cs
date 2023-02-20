@@ -1,4 +1,5 @@
-﻿using LegionSociety.Contacts.Services;
+﻿using LegionSociety.Contacts.Data.Models;
+using LegionSociety.Contacts.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +12,17 @@ namespace LegionSociety.Contacts.Web.Controllers
     {
         private readonly IAuthenticationService AuthenticationService;
         private readonly IClaimsService ClaimsService;
-
+        private readonly IUserContext UserContext;
+        private readonly IRepository<Contact> ContactRepository;
         public AccountsController(IAuthenticationService authenticationService,
-            IClaimsService claimsService)
+            IClaimsService claimsService,
+            IUserContext userContext,
+            IRepository<Contact> contactRepository)
         {
             this.AuthenticationService = authenticationService;
             this.ClaimsService = claimsService;
+            UserContext = userContext;
+            ContactRepository = contactRepository;
         }
         public IActionResult Index()
         {
@@ -43,6 +49,24 @@ namespace LegionSociety.Contacts.Web.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> QrCode()
+        {
+            if(UserContext.GetId() == null)
+            {
+                Response.StatusCode = 400;
+                return new EmptyResult();
+            }
+
+            var qrResponse = await AuthenticationService.CreateTotp(UserContext.GetId().Value);
+            if(qrResponse == null)
+            {
+                Response.StatusCode = 400;
+                return new EmptyResult();
+            }
+
+            return File(qrResponse.QrImage, "image/png");
         }
     }
 }
