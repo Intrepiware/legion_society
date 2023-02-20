@@ -1,4 +1,5 @@
 ﻿using LegionSociety.Contacts.Data.Models;
+using LegionSociety.Contacts.Models;
 using LegionSociety.Contacts.Services;
 using LegionSociety.Contacts.Services.Implementation;
 using LegionSociety.Contacts.Web.Models.Contacts;
@@ -32,16 +33,21 @@ namespace LegionSociety.Contacts.Web.Controllers
         public ActionResult Index()
         {
             var models = ContactsRepo.GetAll().ToList();
-            var contacts = models.Select(ContactMapper.Map).ToList();
+            var contacts = models.Select(ContactMapper.MapDetail).ToList();
             var model = new IndexModel { Contacts = contacts, EmailAddress = UserContext.GetEmailAddress() };
             return View(model);
         }
 
         [Route("Contacts/{id}")]
         // GET: ContactsController/5
-        public ActionResult Index(long id)
+        public async Task<ActionResult> Details(long id)
         {
-            return View();
+            var contact = await ContactService.Get(id);
+
+            if (contact == null)
+                return NotFound();
+
+            return View("Details", contact);
         }
 
         // GET: ContactsController/Create
@@ -71,17 +77,10 @@ namespace LegionSociety.Contacts.Web.Controllers
         {
             if(UserContext.CanEditContact(id))
             {
-                var contact = await ContactsRepo.GetById(id);
+                var contact = await ContactService.GetEdit(id);
                 if(contact != null)
                 {
-                    var model = new EditModel
-                    {
-                        DateOfBirth = contact.DateOfBirth,
-                        Email = contact.EmailAddress,
-                        FirstName = contact.FirstName,
-                        LastName = contact.LastName
-                    };
-                    return View(model);
+                    return View(contact);
                 }
             }
 
@@ -91,42 +90,15 @@ namespace LegionSociety.Contacts.Web.Controllers
         // POST: ContactsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, EditModel model)
+        public ActionResult Edit(int id, ContactEditModel model)
         {
             if(ModelState.IsValid)
             {
-                var contact = new Contacts.Models.Contact
-                {
-                    EmailAddress = model.Email,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Id = id
-                };
-                ContactService.Update(contact);
+                ContactService.Update(model);
             }
 
             return View(model);
         }
 
-        // GET: ContactsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ContactsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

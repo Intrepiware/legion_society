@@ -50,7 +50,7 @@ namespace LegionSociety.Contacts.Services.Tests
             public async Task Should_Update()
             {
                 // Arrange
-                var contact = new Models.Contact { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress="user1@email.com" };
+                var contact = new Models.ContactDetailModel { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress="user1@email.com" };
 
                 // Act
                 var result = await _contactService.Update(contact);
@@ -67,7 +67,7 @@ namespace LegionSociety.Contacts.Services.Tests
             public void Should_Throw_If_Unprivileged()
             {
                 // Arrange
-                var contact = new Models.Contact { Id = 1000, FirstName = "Brad", LastName = "Update Test", EmailAddress = "user1000@email.com" };
+                var contact = new Models.ContactDetailModel { Id = 1000, FirstName = "Brad", LastName = "Update Test", EmailAddress = "user1000@email.com" };
 
                 // Act / Assert
                 Assert.ThrowsAsync<SecurityException>(async () => await _contactService.Update(contact));
@@ -79,7 +79,7 @@ namespace LegionSociety.Contacts.Services.Tests
             {
 
                 // Arrange
-                var contact = new Models.Contact { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress = "user1000@email.com" };
+                var contact = new Models.ContactDetailModel { Id = 1, FirstName = "Alex", LastName = "Update Test", EmailAddress = "user1000@email.com" };
 
                 // Act
                 var result = await _contactService.Update(contact);

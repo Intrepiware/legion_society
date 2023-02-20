@@ -5,7 +5,7 @@ namespace LegionSociety.Contacts.Web.Models.Contacts
 {
     public class IndexModel
     {
-        public List<Contact> Contacts { get; set; }
+        public List<ContactDetailModel> Contacts { get; set; }
         public string EmailAddress { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace LegionSociety.Contacts.Services
 {
     public interface IContactService
     {
-        Task<string> Update(Contact contact);
+        Task<ContactDetailModel> Get(long id);
+        Task<ContactEditModel> GetEdit(long id);
+        Task<string> Update(ContactEditModel contact);
     }
 }

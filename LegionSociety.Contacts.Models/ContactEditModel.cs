@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace LegionSociety.Contacts.Models
 {
-    public class Contact
+    public class ContactEditModel
     {
         public long Id { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string EmailAddress { get; set; }
-        public string Password { get; set; }
-        public Role Role { get; set; }
+        [Required]
+        public DateTime? DateOfBirth { get; set; }
     }
 }
