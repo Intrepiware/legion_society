@@ -19,11 +19,13 @@ namespace LegionSociety.Contacts.Services.Implementation
         public async Task Add(TEntity entity)
         {
             await Context.Set<TEntity>().AddAsync(entity);
+            await Context.SaveChangesAsync();
         }
 
-        public void Delete(TEntity entity)
+        public async Task Delete(TEntity entity)
         {
             Context.Set<TEntity>().Remove(entity);
+            await Context.SaveChangesAsync();
         }
 
         public IQueryable<TEntity> GetAll()
@@ -36,9 +38,10 @@ namespace LegionSociety.Contacts.Services.Implementation
             return await Context.Set<TEntity>().FindAsync(id);
         }
 
-        public void Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
             Context.Set<TEntity>().Update(entity);
+            await Context.SaveChangesAsync();
         }
     }
 }

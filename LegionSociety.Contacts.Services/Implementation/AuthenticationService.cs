@@ -41,7 +41,7 @@ namespace LegionSociety.Contacts.Services.Implementation
                 var qrCode = new PngByteQRCode(qrCodeData);
 
                 contact.TotpKey = secret;
-                ContactRepository.Update(contact);
+                await ContactRepository.Update(contact);
 
                 return new QrResponseModel
                 {

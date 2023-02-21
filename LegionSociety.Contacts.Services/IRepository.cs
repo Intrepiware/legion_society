@@ -9,8 +9,8 @@ namespace LegionSociety.Contacts.Services
     public interface IRepository<TEntity>
     {
         Task Add(TEntity entity);
-        void Delete(TEntity entity);
-        void Update(TEntity entity);
+        Task Delete(TEntity entity);
+        Task Update(TEntity entity);
         Task<TEntity> GetById(params object[] id);
         IQueryable<TEntity> GetAll();
     }
