@@ -44,7 +44,7 @@ namespace LegionSociety.Contacts.Services.Implementation
 
         public async Task<string> Update(ContactEditModel contact)
         {
-            if (UserContext.CanEditContact(contact.Id))
+            if (UserContext.CanManageContact(contact.Id))
             {
                 var record = await ContactsRepository.GetById(contact.Id);
 

@@ -9,6 +9,7 @@ namespace LegionSociety.Contacts.Services
         public long? GetId();
         public string GetEmailAddress();
         public bool CanManageContacts();
-        public bool CanEditContact(long id);
+        public bool CanManageContact(long id);
+        bool CanReadAllContacts();
     }
 }

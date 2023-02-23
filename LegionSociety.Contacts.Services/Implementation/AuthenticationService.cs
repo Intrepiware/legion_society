@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using LegionSociety.Contacts.Models;
+using System.Linq;
 using Contact = LegionSociety.Contacts.Data.Models.Contact;
 
 
@@ -16,15 +17,18 @@ namespace LegionSociety.Contacts.Services.Implementation
             this.ContactRepository = contactRepository;
         }
 
-        public Contact Validate(string emailAddress, string password)
+        public AuthenticationResultModel Validate(string emailAddress, string password)
         {
             var contact = ContactRepository.GetAll().Where(x => x.EmailAddress == emailAddress).SingleOrDefault();
             var pwValid = PasswordHashService.Verify(password, contact?.Password ?? "dummy");
 
             if (!pwValid || contact == null)
-                return null;
+                return new AuthenticationResultModel { Result = AuthenticationResult.InvalidPassword };
 
-            return contact;
+            if (contact.TotpConfirmDate == null)
+                return new AuthenticationResultModel { Result = AuthenticationResult.MfaRegistrationRequired, ContactId = contact.Id };
+            else
+                return new AuthenticationResultModel { Result = AuthenticationResult.MfaVerificationRequired, ContactId = contact.Id };
         }
     }
 }

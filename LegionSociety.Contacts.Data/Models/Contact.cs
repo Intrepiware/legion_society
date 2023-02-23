@@ -25,5 +25,7 @@ namespace LegionSociety.Contacts.Data.Models
         public DateTime CreateDate { get; set; }
         public DateTime? InactiveDate { get; set; }
         public ICollection<Invitation> Invitations { get; set;}
+        public string TotpKey { get; set; }
+        public DateTime? TotpConfirmDate { get; set; }
     }
 }

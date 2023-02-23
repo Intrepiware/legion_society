@@ -1,0 +1,12 @@
+﻿@using LegionSociety.Contacts.Models
+@model TopMenuModel
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+    <ul class="navbar-nav flex-grow-1">
+        @foreach(var menuItem in Model.MenuItems)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="@this.Url.Action(@menuItem.Action, @menuItem.Controller, null)">@menuItem.DisplayName</a>   
+            </li>            
+        }
+    </ul>
+</div>

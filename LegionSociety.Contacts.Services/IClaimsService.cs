@@ -8,6 +8,7 @@ namespace LegionSociety.Contacts.Services
 {
     public interface IClaimsService
     {
-        List<Claim> Get(Contact contact);
+        List<Claim> GetAllClaims(Contact contact);
+        List<Claim> GetBasicClaims(Contact contact);
     }
 }

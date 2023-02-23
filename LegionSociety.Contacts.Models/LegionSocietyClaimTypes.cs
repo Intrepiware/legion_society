@@ -9,5 +9,8 @@ namespace LegionSociety.Contacts.Models
         public const string Id = "http://legionsociety.local/2022/01/identity/claims/Id";
         public const string Contacts = "http://legionsociety.local/2022/01/identity/claims/Contacts";
         public const string Manage = "/Manage";
+        public const string Read = "/Read";
+        public const string All = "/All";
+
     }
 }
