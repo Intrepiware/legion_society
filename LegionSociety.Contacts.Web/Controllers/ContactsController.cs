@@ -32,6 +32,9 @@ namespace LegionSociety.Contacts.Web.Controllers
         // GET: ContactsController
         public ActionResult Index()
         {
+            if (!UserContext.CanReadAllContacts())
+                return RedirectToAction("Login", "Accounts");
+
             var models = ContactsRepo.GetAll().ToList();
             var contacts = models.Select(ContactMapper.MapDetail).ToList();
             var model = new IndexModel { Contacts = contacts, EmailAddress = UserContext.GetEmailAddress() };
@@ -75,7 +78,7 @@ namespace LegionSociety.Contacts.Web.Controllers
         // GET: ContactsController/5/Edit
         public async Task<ActionResult> Edit(long id)
         {
-            if(UserContext.CanEditContact(id))
+            if(UserContext.CanManageContact(id))
             {
                 var contact = await ContactService.GetEdit(id);
                 if(contact != null)

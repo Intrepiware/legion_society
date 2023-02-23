@@ -6,8 +6,6 @@ namespace LegionSociety.Contacts.Services
 {
     public interface IAuthenticationService
     {
-        Contact Validate(string emailAddress, string password);
-
-        Task<QrResponseModel> CreateTotp(long contactId);
+        AuthenticationResultModel Validate(string emailAddress, string password);
     }
 }

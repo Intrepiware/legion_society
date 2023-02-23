@@ -1,27 +1,32 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LegionSociety.Contacts.Models;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace LegionSociety.Contacts.Services.Implementation
 {
     public class UserContext : IUserContext
     {
-        private readonly IHttpContextAccessor HttpContextAccessor;
         private readonly ClaimsPrincipal User;
 
         public UserContext(IHttpContextAccessor httpContextAccessor)
         {
-            this.HttpContextAccessor = httpContextAccessor;
             this.User = httpContextAccessor.HttpContext.User;
         }
 
-        public bool CanEditContact(long id)
+        public bool CanReadAllContacts()
         {
-            return CanManageContacts() || GetId() == id;
+            return User?.HasClaim($"{LegionSocietyClaimTypes.Contacts}{LegionSocietyClaimTypes.All}{LegionSocietyClaimTypes.Read}", string.Empty) ?? false;
+        }
+
+        public bool CanManageContact(long id)
+        {
+            return CanManageContacts() ||
+                (User?.HasClaim($"{LegionSocietyClaimTypes.Contacts}/{id}{LegionSocietyClaimTypes.Manage}", string.Empty) ?? false);
         }
 
         public bool CanManageContacts()
         {
-            return User?.HasClaim($"{Models.LegionSocietyClaimTypes.Contacts}{Models.LegionSocietyClaimTypes.Manage}", string.Empty) ?? false;
+            return User?.HasClaim($"{LegionSocietyClaimTypes.Contacts}{LegionSocietyClaimTypes.All}{LegionSocietyClaimTypes.Manage}", string.Empty) ?? false;
         }
 
         public string GetEmailAddress()
@@ -37,7 +42,7 @@ namespace LegionSociety.Contacts.Services.Implementation
         {
             if(User != null)
             {
-                if (long.TryParse(User.FindFirst(Models.LegionSocietyClaimTypes.Id).Value, out var id))
+                if (long.TryParse(User.FindFirst(LegionSocietyClaimTypes.Id)?.Value, out var id))
                     return id;
             }
 

@@ -1,11 +1,10 @@
 ﻿using FakeItEasy;
 using LegionSociety.Contacts.Data.Models;
+using LegionSociety.Contacts.Models;
 using LegionSociety.Contacts.Services.Implementation;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LegionSociety.Contacts.Services.Tests
 {
@@ -26,8 +25,8 @@ namespace LegionSociety.Contacts.Services.Tests
 
                 var contacts = new List<Contact>()
                 {
-                    new Contact { EmailAddress = "gooduser@email.com", Password = "password1" },
-                    new Contact { EmailAddress = "baduser@email.com", Password="password2"}
+                    new Contact { Id = 1, EmailAddress = "gooduser@email.com", Password = "password1" },
+                    new Contact { Id = 2, EmailAddress = "baduser@email.com", Password="password2"}
                 };
                 A.CallTo(() => _contactRepository.GetAll()).Returns(contacts.AsQueryable());
                 A.CallTo(() => _passwordHashService.Verify(null, null))
@@ -43,21 +42,22 @@ namespace LegionSociety.Contacts.Services.Tests
                 var result = _authenticationService.Validate("gooduser@email.com", "password1");
 
                 Assert.IsNotNull(result);
-                Assert.AreEqual("gooduser@email.com", result.EmailAddress);
+                Assert.AreEqual(AuthenticationResult.MfaRegistrationRequired, result.Result);
+                Assert.AreEqual(1L, result.ContactId);
             }
 
             [Test]
             public void Should_Deny_Invalid_Login()
             {
                 var result = _authenticationService.Validate("baduser@email.com", "incorrect-password");
-                Assert.IsNull(result);
+                Assert.AreEqual(AuthenticationResult.InvalidPassword, result.Result);
             }
 
             [Test]
             public void Should_Deny_Invalid_Email()
             {
                 var result = _authenticationService.Validate("unknownuser@email.com", "dummy");
-                Assert.IsNull(result);
+                Assert.AreEqual(AuthenticationResult.InvalidPassword, result.Result);
             }
         }
     }

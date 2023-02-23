@@ -37,8 +37,8 @@ namespace LegionSociety.Contacts.Services.Tests
                 _contactRepository = A.Fake<IRepository<Data.Models.Contact>>();
                 _updatedContact = null;
 
-                A.CallTo(() => _userContext.CanEditContact(1)).Returns(true);
-                A.CallTo(() => _userContext.CanEditContact(1000)).Returns(false);
+                A.CallTo(() => _userContext.CanManageContact(1)).Returns(true);
+                A.CallTo(() => _userContext.CanManageContact(1000)).Returns(false);
                 A.CallTo(() => _contactRepository.GetById(0))
                     .WithAnyArguments()
                     .ReturnsLazily((object[] ids) => _contacts.FirstOrDefault(x => x.Id == (long)ids[0]));
