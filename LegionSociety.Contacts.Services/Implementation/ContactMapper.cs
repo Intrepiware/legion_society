@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LegionSociety.Contacts.Data.Models;
+﻿using LegionSociety.Contacts.Data.Models;
 using LegionSociety.Contacts.Models;
 namespace LegionSociety.Contacts.Services.Implementation
 {
     public class ContactMapper : IContactMapper
     {
-        public Models.ContactDetailModel MapDetail(Data.Models.Contact contact)
+        public Models.ContactDetailModel MapDetail(Contact contact)
         {
             return new Models.ContactDetailModel
             {
@@ -15,7 +12,17 @@ namespace LegionSociety.Contacts.Services.Implementation
                 FirstName = contact.FirstName,
                 Id = contact.Id,
                 LastName = contact.LastName,
-                Role = (Role)contact.RoleId
+                Role = (Role)contact.RoleId,
+                Address1 = contact.Address1,
+                Address2 = contact.Address2,
+                Bio = contact.Bio,
+                City = contact.City,
+                DietaryRestrictions = contact.DietaryRestrictions,
+                Gender = contact.Gender,
+                PhoneNumber = contact.PhoneNumberMain,
+                PostalCode = contact.PostalCode,
+                State = contact.State,
+                MembershipStartDate = contact.MembershipStartDate
             };
         }
 

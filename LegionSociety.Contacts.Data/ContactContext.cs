@@ -18,6 +18,10 @@ namespace LegionSociety.Contacts.Data
             modelBuilder.Entity<Contact>()
                 .HasMany(x => x.Invitations)
                 .WithOne(x => x.InvitingContact);
+
+            modelBuilder.Entity<Contact>()
+                .HasMany(x => x.ContactFamilyMembers)
+                .WithOne(x => x.Contact);
         }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Invitation> Invitations { get; set; }

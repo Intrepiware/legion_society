@@ -26,8 +26,22 @@
                                     <td colspan="2">Role</td>
                                     <td class="text-end">@Model.Role</td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2">Member Since</td>
+                                    <td class="text-end">@Model.MembershipStartDate.Year</td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="h6">Bio</h3>
+                                @Model.Bio
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Payment -->
@@ -35,20 +49,19 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h3 class="h6">Payment Method</h3>
-                                <p>
-                                    Visa -1234 <br>
-                                    Total: $169,98 <span class="badge bg-success rounded-pill">PAID</span>
-                                </p>
+                                <h3 class="h6">Home Address</h3>
+                                <address>
+                                    @Model.Address1<br>
+                                    @(string.IsNullOrWhiteSpace(Model.Address2) ? string.Empty : $"{Model.Address2}<br />")
+                                    @Model.City, @Model.State &nbsp;@Model.PostalCode<br />
+                                    <abbr title="Phone">P:</abbr> @Model.PhoneNumber
+                                </address>
                             </div>
                             <div class="col-lg-6">
-                                <h3 class="h6">Billing address</h3>
-                                <address>
-                                    <strong>John Doe</strong><br>
-                                    1355 Market St, Suite 900<br>
-                                    San Francisco, CA 94103<br>
-                                    <abbr title="Phone">P:</abbr> (123) 456-7890
-                                </address>
+                                <h3 class="h6">Dietary Restrictions</h3>
+                                <p>
+                                    @Model.DietaryRestrictions
+                                </p>
                             </div>
                         </div>
                     </div>
