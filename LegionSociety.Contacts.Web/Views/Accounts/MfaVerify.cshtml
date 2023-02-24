@@ -1,10 +1,17 @@
-﻿<h2>MFA Verification</h2>
-
-@using(Html.BeginForm(FormMethod.Post))
-{
-    <div class="form-group">
-        <label for="mfa">Please enter your six-digit code:</label>
-        <input type="text" id="mfa" name="mfa" placeholder="Enter your 6 digit code" />
-    </div>
-    <input type="submit" value="Submit" />
+﻿@{
+    ViewData["Title"] = "MFA Verify";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+
+<div class="card card-container">
+    <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+    <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    <p id="profile-name" class="profile-name-card"></p>
+    @using(Html.BeginForm(FormMethod.Post, new { @class = "form-signin"} ))
+    {
+        <label>Please enter your multi-factor authentication code</label>
+        <span id="reauth-email" class="reauth-email"></span>
+        <input type="text" name="mfa" id="inputMfa" class="form-control" placeholder="000000" required autofocus>
+        <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Verify</button>
+    }
+</div><!-- /card-container -->
