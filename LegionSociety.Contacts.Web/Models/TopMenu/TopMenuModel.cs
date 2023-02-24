@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LegionSociety.Contacts.Models
+namespace LegionSociety.Contacts.Web.Models.TopMenu
 {
     public class TopMenuModel
     {

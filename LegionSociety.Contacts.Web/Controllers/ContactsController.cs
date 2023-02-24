@@ -42,9 +42,11 @@ namespace LegionSociety.Contacts.Web.Controllers
         }
 
         [Route("Contacts/{id}")]
-        // GET: ContactsController/5
         public async Task<ActionResult> Details(long id)
         {
+            if (!UserContext.CanReadAllContacts())
+                return RedirectToAction("Login", "Accounts");
+
             var contact = await ContactService.Get(id);
 
             if (contact == null)
