@@ -15,15 +15,13 @@ namespace LegionSociety.Contacts.Web.Controllers
         private readonly IClaimsService ClaimsService;
         private readonly IUserContext UserContext;
         private readonly IRepository<Contact> ContactRepository;
-        public IMfaService MfaService;
+
         public AccountsController(IAuthenticationService authenticationService,
-            IMfaService mfaService,
             IClaimsService claimsService,
             IUserContext userContext,
             IRepository<Contact> contactRepository)
         {
             this.AuthenticationService = authenticationService;
-            MfaService = mfaService;
             this.ClaimsService = claimsService;
             UserContext = userContext;
             ContactRepository = contactRepository;
@@ -76,7 +74,7 @@ namespace LegionSociety.Contacts.Web.Controllers
                 return new EmptyResult();
             }
 
-            var qrResponse = await MfaService.Initialize(UserContext.GetId().Value);
+            var qrResponse = await AuthenticationService.InitializeMfa(UserContext.GetId().Value);
             if(qrResponse == null)
             {
                 Response.StatusCode = 400;
@@ -89,7 +87,10 @@ namespace LegionSociety.Contacts.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> MfaRegister(string mfa)
         {
-            return await VerifyMfa(mfa);
+            if(await VerifyMfa(mfa))
+                return RedirectToAction("Index", "Contacts");
+
+            return RedirectToAction("MfaRegister");
         }
 
         public IActionResult MfaVerify()
@@ -100,27 +101,29 @@ namespace LegionSociety.Contacts.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> MfaVerify(string mfa)
         {
-            return await VerifyMfa(mfa);
+            if(await VerifyMfa(mfa))
+                return RedirectToAction("Index", "Contacts");
+
+            return View();
         }
 
-        private async Task<IActionResult> VerifyMfa(string mfa)
+        private async Task<bool> VerifyMfa(string mfa)
         {
             if (UserContext.GetId() == null)
             {
-                Response.StatusCode = 400;
-                return new EmptyResult();
+                return false;
             }
 
-            if (await MfaService.Verify(UserContext.GetId().Value, mfa))
+            if (await AuthenticationService.VerifyMfa(UserContext.GetId().Value, mfa))
             {
                 var contact = await ContactRepository.GetById(UserContext.GetId().Value);
                 var claims = ClaimsService.GetAllClaims(contact);
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(principal);
-                return RedirectToAction("Index", "Contacts");
+                return true;
             }
-            return View();
+            return false;
         }
     }
 }

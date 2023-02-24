@@ -19,13 +19,15 @@ namespace LegionSociety.Contacts.Web
             services.AddScoped<IClaimsService, ClaimsService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IContactService, ContactService>();
-            services.AddScoped<IMfaService, MfaService>();
+
             if(configuration["envName"] == "Development")
             {
+                services.AddScoped<IMfaService, FakeMfaService>();
                 services.AddScoped<IPasswordHashService, DoNothingPasswordHashService>();
             }
             else
             {
+                services.AddScoped<IMfaService, MfaService>();
                 services.AddScoped<IPasswordHashService, PasswordHashService>();
             }
 

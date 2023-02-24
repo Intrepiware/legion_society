@@ -8,7 +8,8 @@ namespace LegionSociety.Contacts.Services
 {
     public interface IMfaService
     {
-        Task<QrResponseModel> Initialize(long contactId);
-        Task<bool> Verify(long contactId, string totp);
+        string GenerateKey();
+        byte[] GenerateQr(string key, string emailAddress);
+        bool Verify(string key, string code);
     }
 }
