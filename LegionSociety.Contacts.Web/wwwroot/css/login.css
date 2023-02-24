@@ -51,6 +51,13 @@ body, html {
     border-radius: 50%;
 }
 
+.mfa-qr-code {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 10px;
+    display: block;
+}
+
 /*
  * Form styles
  */
