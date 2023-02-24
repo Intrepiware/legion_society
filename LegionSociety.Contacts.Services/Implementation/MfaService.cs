@@ -1,8 +1,6 @@
 ﻿using LegionSociety.Contacts.Data.Models;
 using OtpNet;
 using QRCoder;
-using System;
-using System.Threading.Tasks;
 
 namespace LegionSociety.Contacts.Services.Implementation
 {

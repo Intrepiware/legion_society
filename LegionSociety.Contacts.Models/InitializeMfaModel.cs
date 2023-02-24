@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LegionSociety.Contacts.Models
+﻿namespace LegionSociety.Contacts.Models
 {
     public class InitializeMfaModel
     {
