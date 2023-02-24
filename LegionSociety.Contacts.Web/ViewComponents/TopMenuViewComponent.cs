@@ -1,5 +1,5 @@
-﻿using LegionSociety.Contacts.Models;
-using LegionSociety.Contacts.Services;
+﻿using LegionSociety.Contacts.Services;
+using LegionSociety.Contacts.Web.Models.TopMenu;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

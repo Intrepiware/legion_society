@@ -1,10 +1,14 @@
 ﻿@using LegionSociety.Contacts.Web.Models.Contacts
 @model IndexModel
 @{
+    ViewData["Title"] = "Contact List";
+}
+@{
     <p>Hello @(Model.EmailAddress)!</p>
     <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email Address</th>
