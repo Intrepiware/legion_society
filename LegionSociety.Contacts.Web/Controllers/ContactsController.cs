@@ -52,7 +52,13 @@ namespace LegionSociety.Contacts.Web.Controllers
             if (contact == null)
                 return NotFound();
 
-            return View("Details", contact);
+            var model = new DetailModel
+            {
+                Contact = contact,
+                CanManageContact = UserContext.CanManageContact(id)
+            };
+
+            return View("Details", model);
         }
 
         // GET: ContactsController/Create

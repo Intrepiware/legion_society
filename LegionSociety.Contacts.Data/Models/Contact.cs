@@ -39,7 +39,7 @@ namespace LegionSociety.Contacts.Data.Models
         [Column(TypeName = "datetime")]
         public DateTime MembershipStartDate { get; set; }
 
-        public ICollection<Invitation> Invitations { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
 
         [MaxLength(50)]
         public string TotpKey { get; set; }
@@ -73,6 +73,6 @@ namespace LegionSociety.Contacts.Data.Models
         [MaxLength(50)]
         public string PhoneNumberMain { get; set; }
 
-        public ICollection<ContactFamilyMember> ContactFamilyMembers { get; set; }
+        public virtual ICollection<ContactFamilyMember> ContactFamilyMembers { get; set; }
     }
 }

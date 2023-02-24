@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LegionSociety.Contacts.Models
 {
@@ -20,5 +21,8 @@ namespace LegionSociety.Contacts.Models
         public string Gender { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime MembershipStartDate { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+
+        public Dictionary<long, string> FamilyMembers { get; set; }
     }
 }

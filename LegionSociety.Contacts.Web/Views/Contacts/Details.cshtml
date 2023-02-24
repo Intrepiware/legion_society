@@ -1,5 +1,7 @@
-﻿@model LegionSociety.Contacts.Models.ContactDetailModel
+﻿@using LegionSociety.Contacts.Web.Models.Contacts
+@model DetailModel
 @{
+    var Contact = Model.Contact;
     ViewBag.Title = "Contacts";
 }
 <div class="container-fluid">
@@ -7,7 +9,7 @@
     <div class="container">
         <!-- Title -->
         <div class="d-flex justify-content-between align-items-center py-3">
-            <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> @Model.FirstName @Model.LastName</h2>
+            <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> @Contact.FirstName @Contact.LastName</h2>
         </div>
 
         <!-- Main content -->
@@ -20,15 +22,15 @@
                             <tbody>
                                 <tr>
                                     <td colspan="2">Email Address</td>
-                                    <td class="text-end"><a href="mailto:@Model.EmailAddress">@Model.EmailAddress</a></td>
+                                    <td class="text-end"><a href="mailto:@Contact.EmailAddress">@Contact.EmailAddress</a></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Role</td>
-                                    <td class="text-end">@Model.Role</td>
+                                    <td class="text-end">@Contact.Role</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Member Since</td>
-                                    <td class="text-end">@Model.MembershipStartDate.Year</td>
+                                    <td class="text-end">@Contact.MembershipStartDate.Year</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -39,7 +41,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <h3 class="h6">Bio</h3>
-                                @Model.Bio
+                                @Contact.Bio
                             </div>
                         </div>
                     </div>
@@ -51,17 +53,24 @@
                             <div class="col-lg-6">
                                 <h3 class="h6">Home Address</h3>
                                 <address>
-                                    @Model.Address1<br>
-                                    @(string.IsNullOrWhiteSpace(Model.Address2) ? string.Empty : $"{Model.Address2}<br />")
-                                    @Model.City, @Model.State &nbsp;@Model.PostalCode<br />
-                                    <abbr title="Phone">P:</abbr> @Model.PhoneNumber
+                                    @Contact.Address1<br>
+                                    @(string.IsNullOrWhiteSpace(Contact.Address2) ? string.Empty : $"{Contact.Address2}<br />")
+                                    @Contact.City, @Contact.State &nbsp;@Contact.PostalCode<br />
+                                    <abbr title="Phone">P:</abbr> @Contact.PhoneNumber
                                 </address>
                             </div>
                             <div class="col-lg-6">
                                 <h3 class="h6">Dietary Restrictions</h3>
                                 <p>
-                                    @Model.DietaryRestrictions
+                                    @Contact.DietaryRestrictions
                                 </p>
+                                @if(Contact.DateOfBirth.HasValue)
+                                {
+                                <h3 class="h6">Birth Date</h3>
+                                <p>
+                                    @Contact.DateOfBirth.Value.ToShortDateString()
+                                </p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -70,27 +79,24 @@
             <div class="col-lg-4">
                 <!-- Customer Notes -->
                 <div class="card mb-4">
-                    <div class="card-body">
-                        <h3 class="h6">Customer Notes</h3>
-                        <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>
-                    </div>
-                </div>
-                <div class="card mb-4">
                     <!-- Shipping information -->
                     <div class="card-body">
-                        <h3 class="h6">Shipping Information</h3>
-                        <strong>FedEx</strong>
-                        <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>
-                        <hr>
-                        <h3 class="h6">Address</h3>
-                        <address>
-                            <strong>John Doe</strong><br>
-                            1355 Market St, Suite 900<br>
-                            San Francisco, CA 94103<br>
-                            <abbr title="Phone">P:</abbr> (123) 456-7890
-                        </address>
+                        <h3 class="h6">Family Members</h3>
+                        @foreach(var familyMember in Contact.FamilyMembers)
+                        {
+                            @familyMember.Value <br />
+                        }
                     </div>
                 </div>
+                @if(Model.CanManageContact)
+                {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h6">Functions</h3>
+                        <a href="@Url.ActionLink("Edit", "Contacts", new { id = Contact.Id })" class="btn btn-info">Edit</a>
+                    </div>
+                </div>
+                }
             </div>
         </div>
     </div>

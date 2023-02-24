@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace LegionSociety.Contacts.Data.Models
 {
@@ -19,8 +17,8 @@ namespace LegionSociety.Contacts.Data.Models
         [Required]
         public DateTime CreateDate { get; set; }
         [Required]
-        public Contact InvitingContact { get; set; }
+        public virtual Contact InvitingContact { get; set; }
         public DateTime? RedeemDate { get; set; }
-        public Contact Contact { get; set; }
+        public virtual Contact Contact { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace LegionSociety.Contacts.Data.Models
         [Key]
         public long Id { get; set; }
 
-        public Contact Contact { get; set; }
+        public virtual Contact Contact { get; set; }
 
         [Required, MaxLength(255)]
         public string FirstName { get; set; }
