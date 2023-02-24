@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LegionSociety.Contacts.Models
 {
-    public class QrResponseModel
+    public class InitializeMfaModel
     {
         public byte[] QrImage { get; set; }
         public string TotpCode { get; set; }

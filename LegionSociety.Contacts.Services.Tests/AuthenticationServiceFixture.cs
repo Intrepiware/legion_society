@@ -33,7 +33,7 @@ namespace LegionSociety.Contacts.Services.Tests
                     .WithAnyArguments()
                     .ReturnsLazily((string x, string y) => x == y);
 
-                _authenticationService = new AuthenticationService(_passwordHashService, _contactRepository);
+                _authenticationService = new AuthenticationService(_passwordHashService, _contactRepository, null);
             }
 
             [Test]
