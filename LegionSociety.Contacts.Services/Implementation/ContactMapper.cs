@@ -15,7 +15,7 @@ namespace LegionSociety.Contacts.Services.Implementation
                 FirstName = contact.FirstName,
                 Id = contact.Id,
                 LastName = contact.LastName,
-                Role = (Role)contact.RoleId,
+                Role = (Models.Role)contact.RoleId,
                 Address1 = contact.Address1,
                 Address2 = contact.Address2,
                 Bio = contact.Bio,

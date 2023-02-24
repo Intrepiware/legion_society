@@ -19,7 +19,7 @@ namespace LegionSociety.Contacts.Services.Implementation
                 output.Add(new Claim($"{LegionSocietyClaimTypes.Contacts}/{contact.Id}{LegionSocietyClaimTypes.Manage}", string.Empty));
                 
 
-                if (contact.RoleId == (byte)Role.Admin)
+                if (contact.RoleId == (byte)Models.Role.Admin)
                 {
                     output.Add(new Claim($"{LegionSocietyClaimTypes.Contacts}{LegionSocietyClaimTypes.All}{LegionSocietyClaimTypes.Manage}", string.Empty));
                 }

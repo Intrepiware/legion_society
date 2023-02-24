@@ -35,7 +35,10 @@ namespace LegionSociety.Contacts.Web.Controllers
             if (!UserContext.CanReadAllContacts())
                 return RedirectToAction("Login", "Accounts");
 
-            var models = ContactsRepo.GetAll().ToList();
+            var models = ContactsRepo.GetAll()
+                                .OrderBy(x => x.LastName)
+                                .ThenBy(x => x.FirstName)
+                                .ToList();
             var contacts = models.Select(ContactMapper.MapDetail).ToList();
             var model = new IndexModel { Contacts = contacts, EmailAddress = UserContext.GetEmailAddress() };
             return View(model);

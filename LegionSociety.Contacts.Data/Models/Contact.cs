@@ -25,7 +25,10 @@ namespace LegionSociety.Contacts.Data.Models
         public string Password { get; set; }
 
         [Required]
+        [ForeignKey("Role")]
         public byte RoleId { get; set; }
+
+        public virtual Role Role { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime? DateOfBirth { get; set; }
